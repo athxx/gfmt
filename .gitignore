@@ -1,0 +1,35 @@
+.env
+# Binaries for programs and plugins
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+
+# IDE and autogenerate files/dirs and compress files
+*.out
+.idea
+.vscode
+.vs
+.project
+.DS_Store
+Thumbs.db
+*.sw?
+*.7z
+*.zip
+*.rar
+*.tar
+*.tar.gz
+*.xz
+*.tgz
+
+# log files and runtime files
+*.log
+*.cache
+test*
+.bin
+temp
+tmp
+# go.sum
+
+
