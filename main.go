@@ -22,11 +22,12 @@ type Pack struct {
 }
 
 var (
-	impC   string
-	impStd = map[string][]Pack{}
-	impPrj = map[string][]Pack{}
-	impExt = map[string][]Pack{}
-	impAno []string
+	impC        string
+	impStd      = map[string][]Pack{}
+	impPrj      = map[string][]Pack{}
+	impExt      = map[string][]Pack{}
+	impAno      []string
+	hasBrackets bool
 )
 
 func main() {
@@ -104,6 +105,9 @@ func rewriteFile(file string) {
 	// match `import ()`
 	r, _ = regexp.Compile("\\r?\\nimport([\\s\\t\\r\\n]+\\()([^\\)]+)(\\))")
 	res = r.FindAllStringSubmatch(txt, 100)
+	if len(res) > 0 {
+		hasBrackets = true
+	}
 	for _, v := range res {
 		if len(v) >= 3 {
 			ss := strings.Split(v[2], separator)
@@ -153,7 +157,7 @@ func write(file, txt string) {
 			newStr = separator + impC + separator + separator
 		}
 		std, prj, ext := impBuilder()
-		if len(std)+len(prj)+len(ext) == 1 {
+		if len(std)+len(prj)+len(ext) == 1 && !hasBrackets {
 			newStr += `import `
 			if len(std) == 1 {
 				newStr += strings.TrimSpace(std[0])
@@ -308,6 +312,7 @@ func reset() {
 	impPrj = map[string][]Pack{}
 	impExt = map[string][]Pack{}
 	impAno = []string{}
+	hasBrackets = false
 }
 
 func execGofmt(dirPath string) {
